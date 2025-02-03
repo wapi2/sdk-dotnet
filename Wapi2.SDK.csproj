@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
+    <RootNamespace>Wapi2.SDK</RootNamespace>
+    <AssemblyName>Wapi2.SDK</AssemblyName>
+    <PackageId>Wapi2.SDK</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Jhon Grandez</Authors>
+    <Company>wapi2.com</Company>
+    <Description>WhatsApp Web API SDK</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+</Project>
