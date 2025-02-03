@@ -38,8 +38,10 @@ jobs:
 
       - name: Push to NuGet
         run: |
-          if (-Not (Test-Path "nupkgs\*.nupkg")) {
-            Write-Error "No NuGet packages were found in the nupkgs directory."
+          $packagePath = Get-ChildItem -Path "nupkgs" -Filter "*.nupkg" | Select-Object -ExpandProperty FullName
+          if (-Not $packagePath) {
+            Write-Error "File does not exist in nupkgs directory."
             exit 1
           }
-          dotnet nuget push "nupkgs/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+          Write-Host "Found package: $packagePath"
+          dotnet nuget push $packagePath --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
