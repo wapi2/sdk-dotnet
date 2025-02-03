@@ -3,19 +3,32 @@
     <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
     <RootNamespace>Wapi2.SDK</RootNamespace>
     <AssemblyName>Wapi2.SDK</AssemblyName>
+
+    <!-- Metadatos del paquete -->
     <PackageId>Wapi2.SDK</PackageId>
     <Version>1.0.0</Version>
     <Authors>Jhon Grandez</Authors>
     <Company>wapi2.com</Company>
-    <Description>WhatsApp Web API SDK</Description>
+    <Description>SDK oficial para integrar WhatsApp en aplicaciones .NET</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/wapi2/sdk-dotnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/wapi2/sdk-dotnet.git</RepositoryUrl>
+    <PackageTags>whatsapp;api;sdk;messaging</PackageTags>
+
+    <!-- Configuración de build -->
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
     <Reference Include="System.Net.Http" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.6'">
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
 </Project>

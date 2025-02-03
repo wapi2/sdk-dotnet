@@ -1,0 +1,30 @@
+name: Publish to NuGet
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '4.6.1'
+    
+    - name: Restore
+      run: dotnet restore
+    
+    - name: Build
+      run: dotnet build Wapi2.SDK.csproj -c Release --no-restore
+    
+    - name: Pack
+      run: dotnet pack Wapi2.SDK.csproj -c Release --no-build -o out
+    
+    - name: Push to NuGet
+      run: dotnet nuget push ./out/*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
