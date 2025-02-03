@@ -16,7 +16,7 @@
     <PackageTags>whatsapp;api;sdk;messaging</PackageTags>
 
     <!-- Configuración de build -->
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 

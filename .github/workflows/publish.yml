@@ -19,27 +19,20 @@ jobs:
         dotnet-version: |
           2.1.x
           3.1.x
+          6.0.x
     
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.1
-      
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.2.0
-      
-    - name: Restore packages
-      run: nuget restore Wapi2.SDK.sln
+    - name: Restore dependencies
+      run: dotnet restore Wapi2.SDK.sln
       
     - name: Build solution
-      run: |
-        msbuild Wapi2.SDK.sln /p:Configuration=Release /p:Platform="Any CPU"
+      run: dotnet build Wapi2.SDK.sln --configuration Release --no-restore
         
     - name: Create NuGet package
-      run: |
-        msbuild src/Wapi2.SDK/Wapi2.SDK.csproj /t:pack /p:Configuration=Release /p:OutputPath=./nupkgs
-        
+      run: dotnet pack src/Wapi2.SDK/Wapi2.SDK.csproj --configuration Release --output ./nupkgs --no-build
+      
     - name: List Package Directory
-      run: dir src\Wapi2.SDK\nupkgs
+      run: dir nupkgs
       
     - name: Push to NuGet
       run: |
-        dotnet nuget push "src/Wapi2.SDK/nupkgs/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        dotnet nuget push "nupkgs/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
