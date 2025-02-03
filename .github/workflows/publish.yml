@@ -35,8 +35,11 @@ jobs:
         
     - name: Create NuGet package
       run: |
-        msbuild src/Wapi2.SDK/Wapi2.SDK.csproj /t:pack /p:Configuration=Release /p:PackageOutputPath=../../nupkgs
+        msbuild src/Wapi2.SDK/Wapi2.SDK.csproj /t:pack /p:Configuration=Release /p:OutputPath=./nupkgs
         
+    - name: List Package Directory
+      run: dir src\Wapi2.SDK\nupkgs
+      
     - name: Push to NuGet
       run: |
-        dotnet nuget push "./nupkgs/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        dotnet nuget push "src/Wapi2.SDK/nupkgs/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
