@@ -7,8 +7,8 @@ on:
 
 jobs:
   publish:
-    runs-on: windows-latest    # Cambiado a windows-latest para mejor soporte de .NET Framework
-    
+    runs-on: windows-latest
+
     steps:
     - uses: actions/checkout@v3
     
@@ -21,7 +21,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '3.1.x'    # Version compatible con .NET Standard 1.6
+        dotnet-version: '6.0.x'
     
     - name: Restore NuGet packages
       run: nuget restore Wapi2.SDK.sln
