@@ -27,16 +27,20 @@ jobs:
       uses: NuGet/setup-nuget@v1.2.0
       
     - name: Restore packages
-      run: nuget restore Wapi2.SDK.sln
+      run: nuget restore ../Wapi2.SDK.sln
+      working-directory: Wapi2.SDK
       
     - name: Build solution
       run: |
-        msbuild Wapi2.SDK.sln /p:Configuration=Release /p:Platform="Any CPU"
+        msbuild ../Wapi2.SDK.sln /p:Configuration=Release /p:Platform="Any CPU"
+      working-directory: Wapi2.SDK
         
     - name: Create NuGet package
       run: |
-        msbuild Wapi2.SDK.csproj /t:pack /p:Configuration=Release /p:PackageOutputPath=./nupkgs
+        msbuild /t:pack /p:Configuration=Release /p:PackageOutputPath=./nupkgs
+      working-directory: Wapi2.SDK
         
     - name: Push to NuGet
       run: |
         dotnet nuget push "./nupkgs/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+      working-directory: Wapi2.SDK
