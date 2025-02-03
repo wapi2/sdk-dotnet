@@ -170,9 +170,14 @@ catch (WhatsAppException ex)
 - Formatos de Office soportados: doc, docx, xls, xlsx, ppt, pptx
 
 ## 🛠️ Plataformas Soportadas
-- .NET Framework 4.6.1+
-- .NET Standard 1.6+
-- .NET Core 2.0+
+
+- .NET Framework 4.6.1 o superior
+- Cualquier plataforma que soporte .NET Standard 1.6, incluyendo:
+  - .NET Core 1.0 o superior
+  - Xamarin.iOS 10.0 o superior
+  - Xamarin.Android 7.0 o superior
+  - Universal Windows Platform 10.0 o superior
+  - Unity 2018.1 o superior
 
 ## 📘 Documentación
 Para más detalles y ejemplos, visita nuestra [documentación completa](https://wapi2.com/api-docs).

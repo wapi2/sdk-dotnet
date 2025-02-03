@@ -7,24 +7,31 @@ on:
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest    # Cambiado a windows-latest para mejor soporte de .NET Framework
     
     steps:
     - uses: actions/checkout@v3
     
-    - name: Setup .NET
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.1
+    
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.1.1
+    
+    - name: Setup .NET Core
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '4.6.1'
+        dotnet-version: '3.1.x'    # Version compatible con .NET Standard 1.6
     
-    - name: Restore
-      run: dotnet restore
+    - name: Restore NuGet packages
+      run: nuget restore Wapi2.SDK.sln
     
     - name: Build
-      run: dotnet build Wapi2.SDK.csproj -c Release --no-restore
+      run: msbuild Wapi2.SDK.sln /p:Configuration=Release
     
     - name: Pack
-      run: dotnet pack Wapi2.SDK.csproj -c Release --no-build -o out
+      run: dotnet pack --no-build -c Release -o out
     
     - name: Push to NuGet
-      run: dotnet nuget push ./out/*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
+      run: |
+        dotnet nuget push "./out/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
