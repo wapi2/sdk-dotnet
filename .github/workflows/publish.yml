@@ -34,7 +34,7 @@ jobs:
         run: dotnet pack src/Wapi2.SDK/Wapi2.SDK.csproj --configuration Release --output ./nupkgs --no-build
 
       - name: List Package Directory (Debugging Step)
-        run: ls -la nupkgs
+        run: Get-ChildItem -Path nupkgs -Recurse
 
       - name: Push to NuGet
         run: |
