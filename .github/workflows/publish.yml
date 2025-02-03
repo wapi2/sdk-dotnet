@@ -38,8 +38,8 @@ jobs:
 
       - name: Push to NuGet
         run: |
-          if [ -z "$(ls -A nupkgs/*.nupkg 2>/dev/null)" ]; then
-            echo "ERROR: No se encontró ningún paquete .nupkg en nupkgs/"
+          if (-Not (Test-Path "nupkgs\*.nupkg")) {
+            Write-Error "No NuGet packages were found in the nupkgs directory."
             exit 1
-          fi
+          }
           dotnet nuget push "nupkgs/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
