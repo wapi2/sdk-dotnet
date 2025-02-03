@@ -8,31 +8,38 @@ on:
 jobs:
   publish:
     runs-on: windows-latest
-    
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-      
-    - name: Setup .NET Core SDK
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: |
-          2.1.x
-          3.1.x
-          6.0.x
-    
-    - name: Restore dependencies
-      run: dotnet restore Wapi2.SDK.sln
-      
-    - name: Build solution
-      run: dotnet build Wapi2.SDK.sln --configuration Release --no-restore
-        
-    - name: Create NuGet package
-      run: dotnet pack src/Wapi2.SDK/Wapi2.SDK.csproj --configuration Release --output ./nupkgs --no-build
-      
-    - name: List Package Directory
-      run: dir nupkgs
-      
-    - name: Push to NuGet
-      run: |
-        dotnet nuget push "nupkgs/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: |
+            2.1.x
+            3.1.x
+            6.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore Wapi2.SDK.sln
+
+      - name: Build solution
+        run: dotnet build Wapi2.SDK.sln --configuration Release --no-restore
+
+      - name: Crear directorio de paquetes (por seguridad)
+        run: mkdir -p nupkgs
+
+      - name: Create NuGet package
+        run: dotnet pack src/Wapi2.SDK/Wapi2.SDK.csproj --configuration Release --output ./nupkgs --no-build
+
+      - name: List Package Directory (Debugging Step)
+        run: ls -la nupkgs
+
+      - name: Push to NuGet
+        run: |
+          if [ -z "$(ls -A nupkgs/*.nupkg 2>/dev/null)" ]; then
+            echo "ERROR: No se encontró ningún paquete .nupkg en nupkgs/"
+            exit 1
+          fi
+          dotnet nuget push "nupkgs/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate

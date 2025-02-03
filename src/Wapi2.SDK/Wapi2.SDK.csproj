@@ -18,6 +18,7 @@
     <!-- Configuración de build -->
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageOutputPath>..\nupkgs</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
